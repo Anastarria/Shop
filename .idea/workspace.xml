@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cb5b5ed4-eb5f-4a8c-a1b0-bd8c7171a794" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product_images/1839e29bc9d324e3ea78511bdfdd8276.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product_images/241ea03f4ccc5137d7857bab9cb9df43.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product_images/5441bf18126f034a6b88869c5cd1b0ec.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product_images/99661c08d563980276aa80317dfe22b3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product_images/a87b9af44459f6a5931faeda07c853dd.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product_images/bd8b19bd379de3af14954d0cec3496cf.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product_images/e2bfaa1990a520c39ddbff19c391fcd4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product_images/f4c323870360a0472a853132d6b4b28f.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product_images/fdc469c7fff9b8fa09b9a1e90d79f0d3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products.json" beforeDir="false" afterPath="$PROJECT_DIR$/products.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/products.tpl" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/products.tpl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates_c/cba142530b50babcc75512b6f85c629c7aaf6650_0.file.products.tpl.php" beforeDir="false" afterPath="$PROJECT_DIR$/templates_c/cba142530b50babcc75512b6f85c629c7aaf6650_0.file.products.tpl.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hpa9v87tx5ey4G5TCoXgb3FpMn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cb5b5ed4-eb5f-4a8c-a1b0-bd8c7171a794" name="Default Changelist" comment="" />
+      <created>1600710340985</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600710340985</updated>
+      <workItem from="1600710342188" duration="1069000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

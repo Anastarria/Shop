@@ -447,21 +447,27 @@ function adminAddProductEndpoint()
 
 function getProductsList()
 {
-    $products = readFromFile(PRODUCTS_FILE, []);
+    $categories = getCategoriesList();
 
-    $len = count($products) - 1;
+    $prodFromCategory = [];
 
-    for ($j = 0; $j < $len; $j++) {
-        for($i = 0; $i < $len; $i++) {
-            if ($products[$i]['id'] > $products[$i + 1]['id']) {
-                $tmp = $products[$i];
-                $products[$i] = $products[$i + 1];
-                $products[$i + 1] = $tmp;
-            }
-        }
+    foreach ($categories as $category) {
+        $prodFromCategory[$category['id']] = $category['name'];
     }
 
-    return $products;
+    $products = readFromFile(PRODUCTS_FILE, []);
+
+    $updatedProducts = array_map(function ($product) use ($prodFromCategory) {
+        $product['category_name'] = $prodFromCategory[$product['category_id']];
+        return $product;
+    }, $products);
+
+
+//    foreach ($products as &$product) {
+//        $product['category_name'] = $prodFromCategory[$product['category_id']];
+//    }
+
+    return $updatedProducts;
 }
 
 function getCategoriesList()

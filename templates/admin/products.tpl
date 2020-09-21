@@ -48,17 +48,17 @@
         </thead>
         <tbody>
             {foreach from=$products item=product}
-            <tr>
-                <td>{$product['id']}</td>
-                <td><img src="{$product['image']}" width="200" height="200"></td>
-                <td>{$product['name']}</td>
-                <td>{$product['price']}</td>
-                <td></td>
-                <td>
-                    <button class="btn btn-warning">Update</button>
+                <tr>
+                    <td>{{$product['id']}}</td>
+                    <td>{if $product['image']}<img src="/{{$product['image']}}" width="200" height="200">{else}<img src="/product_images/noimage.png" width="250" height="150">{/if}</td>
+                    <td>{{$product['name']}}</td>
+                    <td>{{$product['price']}}</td>
+                    <td>{{$product['category_name']}}</td>
+                    <td>
+                        <button class="btn btn-warning">Update</button>
                     <td><a href="/?action=adminRemoveProduct&productId={$product['id']}" class="btn btn-danger">Delete</a></td>
-                </td>
-            </tr>
+                    </td>
+                </tr>
             {/foreach}
 
         </tbody>
