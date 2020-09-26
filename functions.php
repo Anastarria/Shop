@@ -126,6 +126,15 @@ function cartEndpoint()
 {
     global $smarty;
 
+    $products = getCartItems();
+
+    $total = 0;
+    foreach ($products as $product) {
+        $total += $product['price'] * $product['count'];
+    }
+
+    $smarty->assign('products', $products);
+    $smarty->assign('total', $total);
     $smarty->display('cart.tpl');
 }
 
@@ -144,6 +153,7 @@ function mainPageEndpoint()
 
     $smarty->assign('categories', getCategoriesList());
     $smarty->assign('products', getProductsList());
+//    $smarty->assign('sortedProducts', sortedProductsEndpoint())
     $smarty->display('index.tpl');
 }
 
@@ -209,13 +219,28 @@ function adminProductsEndpoint()
 function adminOrdersEndpoint()
 {
     global $smarty;
+    $orders = readFromFile(ORDERS_FILE, []);
 
+    $smarty->assign('orders', $orders);
     $smarty->display('admin/orders.tpl');
 }
 
 function ordersEndpoint()
 {
     global $smarty;
+
+    if(!($_SESSION['user'])) {
+        header("Location:/?action=login");
+        return;
+    }
+
+    $orders = readFromFile(ORDERS_FILE, []);
+
+    $userOrders = array_filter($orders, function ($order) {
+        return $order['user'] === $_SESSION['user']['email'];
+    });
+
+    $smarty->assign('orders', $userOrders);
 
     $smarty->display('orders.tpl');
 }
@@ -467,7 +492,16 @@ function getProductsList()
 //        $product['category_name'] = $prodFromCategory[$product['category_id']];
 //    }
 
-    return $updatedProducts;
+    $sortedProducts = array_filter($products, function ($product) {
+        $categoryId = $_GET['categoryId'];
+        if ($categoryId === $product['category_id']) {
+            return $product;
+        }
+    });
+    if ($_GET['action'] === "sorted") {
+        return $sortedProducts;
+    }
+   return $updatedProducts;
 }
 
 function getCategoriesList()
@@ -487,4 +521,129 @@ function getCategoriesList()
     }
 
     return $categories;
+}
+
+function addItemToCartEndpoint()
+{
+    $id = $_POST['id'];
+    if (strlen($id) !== 32) {
+        die("Wrong product ID $id specified");
+    }
+
+    $products = readFromFile(PRODUCTS_FILE, []);
+    $foundProduct = null;
+
+    foreach ($products as $product) {
+        if ($product['id'] === $id) {
+            $foundProduct = $product;
+            break;
+        }
+    }
+
+    if (!$foundProduct) {
+        die("Product with id: $id does not exist");
+    }
+
+    $cartProducts = $_SESSION['cart'] ?? [];
+    $cartHasThisProduct = false;
+    foreach ($cartProducts as &$cartProduct) {
+        if ($cartProduct['id'] === $foundProduct['id']) {
+            $cartProduct['count']++;
+            $cartHasThisProduct = true;
+            break;
+        }
+    }
+    if (!$cartHasThisProduct) {
+        $foundProduct['count'] = 1;
+        $cartProducts[] = $foundProduct;
+    }
+
+    $_SESSION['cart'] = $cartProducts;
+
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+}
+
+function removeFromCartEndpoint()
+{
+    $id = $_POST['id'];
+    if (strlen($id) !== 32) {
+        die("Wrong product ID $id specified");
+    }
+    $products = readFromFile(PRODUCTS_FILE, []);
+    $foundProduct = null;
+
+    foreach ($products as $product) {
+        if ($product['id'] === $id) {
+            $foundProduct = $product;
+            break;
+        }
+    }
+
+    if (!$foundProduct) {
+        die("Product with id: $id does not exist");
+    }
+
+    $cartProducts = $_SESSION['cart'] ?? [];
+    $cartHasThisProduct = false;
+    foreach ($cartProducts as $key => &$cartProduct) {
+        if ($cartProduct['id'] === $foundProduct['id']) {
+            if ($cartProduct['count'] === 1) {
+                unset($cartProducts[$key]);
+                $cartHasThisProduct = true;
+                break;
+            }
+            $cartProduct['count']--;
+            $cartHasThisProduct = true;
+            break;
+        }
+    }
+
+    if (!$cartHasThisProduct) {
+        die("The product with ID = $id does not exist in your cart");
+    }
+
+    $_SESSION['cart'] = $cartProducts;
+
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+}
+
+function getCartItemsCount(): int
+{
+    $cartItemsCount = 0;
+    foreach ($_SESSION['cart'] ?? [] as $item) {
+        $cartItemsCount += $item['count'];
+    }
+    return $cartItemsCount;
+}
+function getCartItems(): array
+{
+    return $_SESSION['cart'] ?? [];
+}
+
+function makeOrderEndpoint()
+{
+    $phone = $_POST['phone'];
+    if (strpos($phone, '+') !== 0) {
+        die("Phone number should start from `+` sign!");
+    }
+
+    if (strlen($phone) < 9) {
+        die("Phone number is too short!");
+    }
+
+    $userMail = $_SESSION['user']['email'] ?? '-';
+    $orders = readFromFile(ORDERS_FILE, []);
+
+    $orders[] = [
+        'id' => md5(time() . rand(1,10000)),
+        'user' => $userMail,
+        'phone' => $phone,
+        'products' => $_SESSION['cart']
+    ];
+
+    if (writeFile(ORDERS_FILE, $orders)) {
+        unset($_SESSION['cart']);
+    }
+
+    header("Location: " . $_SERVER['HTTP_REFERER']);
 }

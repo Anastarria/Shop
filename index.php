@@ -9,6 +9,7 @@ checkUserRole();
 
 $smarty = new Smarty();
 $smarty->setTemplateDir('templates');
+$smarty->assign('cartItemsCount', getCartItemsCount());
 
 $action = $_GET['action'] ?? 'main';
 
@@ -33,12 +34,11 @@ switch ($action) {
     case "adminRemoveProduct":
         adminRemoveProductEndpoint();
         break;
-    case "sortCategories":
-        sortCategoriesEndpoint();
-        break;
+
     case "adminChangeRole":
         adminChangeRoleEndpoint();
         break;
+
     case "adminAddProduct";
         adminAddProductEndpoint();
         break;
@@ -67,17 +67,20 @@ switch ($action) {
     case "cart":
         cartEndpoint();
         break;
+    case "addToCart":
+        addItemToCartEndpoint();
+        break;
+    case "makeOrder":
+        makeOrderEndpoint();
+        break;
+    case "removeFromCart":
+        removeFromCartEndpoint();
+        break;
     case "orders":
         ordersEndpoint();
         break;
     case "logout":
         logoutEndpoint();
-        break;
-    case "makeAdmin":
-        userToAdmin();
-        break;
-    case "makeUser":
-        adminToUser();
         break;
     default:
         mainPageEndpoint();
